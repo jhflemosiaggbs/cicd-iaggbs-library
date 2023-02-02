@@ -1,0 +1,5 @@
+{
+    "name": "Entrypoint workflow",
+    "description": "Workflow to obtain some informations before start the cicd process",
+    "iconName": "play"
+}

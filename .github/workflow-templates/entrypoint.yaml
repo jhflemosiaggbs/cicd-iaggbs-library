@@ -1,0 +1,38 @@
+
+name: entrypoint
+on:
+  pull_request:
+    types:
+      - "closed"
+
+jobs:
+  entryPoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK 18
+        uses: actions/setup-java@v3
+        with:
+          java-version: '18'
+          distribution: 'temurin'
+
+      - name: Get branch name
+        id: branchName
+        uses: tj-actions/branch-names@v6
+
+      - name: Get artifactId
+        run: |
+          export ARTIFACTID=$( mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout )
+          echo "artifactId=$ARTIFACTID" >> $GITHUB_OUTPUT
+        id: getArtifactId
+
+      - name: Get version
+        run: |
+          export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        id: getVersion
+      
+    outputs:
+      artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
+      version: ${{ steps.getVersion.outputs.version }}
+      branchName: ${{ steps.branchName.outputs.current_branch }}
