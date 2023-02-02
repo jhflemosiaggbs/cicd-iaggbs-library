@@ -1,0 +1,5 @@
+{
+    "name": "Build Java Maven workflow",
+    "description": "Workflow to build Java with Maven",
+    "iconName": "play"
+}
