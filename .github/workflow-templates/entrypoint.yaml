@@ -3,9 +3,6 @@ name: entrypoint
 
 on:
   workflow_call:
-    secrets:
-      token:
-        required: true
 
 jobs:
   entryPoint:
