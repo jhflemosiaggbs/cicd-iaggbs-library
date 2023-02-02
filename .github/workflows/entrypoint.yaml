@@ -3,6 +3,16 @@ name: entrypoint
 
 on:
   workflow_call:
+    outputs:
+      artifactId:
+        description: "The first output string"
+        value: ${{ jobs.entryPoint.outputs.artifactId }}
+      version:
+        description: "The second output string"
+        value: ${{ jobs.entryPoint.outputs.version }}
+      branchName:
+        description: "The second output string"
+        value: ${{ jobs.entryPoint.outputs.branchName }}
 
 jobs:
   entryPoint:
