@@ -13,13 +13,6 @@ on:
       branchName:
         description: "BranchName from GITHUB"
         value: ${{ vars.GITHUB_REF_NAME }}
-    inputs:
-      recipe:
-        required: true
-        type: string
-      deploy:
-        required: true
-        type: string
 
 jobs:
   entryPoint:
@@ -48,34 +41,3 @@ jobs:
       artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
       version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ steps.branchName.outputs.current_branch }}
-
-  if: ${{ inputs.recipe }} == 'java'
-  test:
-    needs: [entrypoint]
-    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
-  build:
-    needs: [entryPoint]
-    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/buildJavaMaven.yaml@develop
-  sonarScan:
-    needs: [entryPoint, test, build]
-    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/sonarCloudScan.yaml@develop
-    secrets: inherit
-    with:
-      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
-      version : ${{ needs.entrypoint.outputs.version }}
-  registry:
-    needs: [entryPoint, sonarScan]
-    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/registryS3.yaml@develop
-    secrets: inherit
-    with:
-      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
-      version : ${{ needs.entrypoint.outputs.version }}
-      branchName : ${{ needs.entrypoint.outputs.branchName }}
-  deploy:
-    needs: [entryPoint, registry]
-    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/deployLambda.yaml@develop
-    secrets: inherit
-    with:
-      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
-      version : ${{ needs.entrypoint.outputs.version }}
-      branchName : ${{ needs.entrypoint.outputs.branchName }}
