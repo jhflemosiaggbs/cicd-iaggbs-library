@@ -47,6 +47,9 @@ jobs:
         run: |
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo ${{ steps.getArtifactId.outputs._1 }}
+
+        
       
     outputs:
       artifactId: ${{ steps.getArtifactId.outputs._1 }}
