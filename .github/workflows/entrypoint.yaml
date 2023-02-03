@@ -27,9 +27,6 @@ jobs:
         with:
           java-version: '18'
           distribution: 'temurin'
-      
-      - name: List files
-        run: cd jhflemosiaggbs/cicd-iaggbs/.github/ && ls -la
 
       - name: Read constants yaml
         id: constants
