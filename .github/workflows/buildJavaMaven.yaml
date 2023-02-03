@@ -40,8 +40,8 @@ jobs:
           projectBaseDir: src/
           args: >
             -Dsonar.organization=interlinehub
-            -Dsonar.projectKey=interlinehub_${{ input.artifactId }}
-            -Dsonar.projectVersion=${{ input.version }}
+            -Dsonar.projectKey=interlinehub_${{ inputs.artifactId }}
+            -Dsonar.projectVersion=${{ inputs.version }}
             -Dsonar.coverage.jacoco.xmlReportPaths=../target/site/jacoco/jacoco.xml
             -Dsonar.java.binaries=../target/classes
             -Dsonar.coverage.exclusions=test/**
