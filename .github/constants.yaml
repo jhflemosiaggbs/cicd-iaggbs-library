@@ -6,6 +6,12 @@ constants:
     registry: registry
     deploy: deploy
 
-
   job_definition:
-    stages_java: ["{{testJavaMaven}}", "{{buildJavaMaven}}", "{{sonarCloudScan}}", "{{registry}}", "{{deploy}}"]
+    stages_java:
+      [
+        "{{testJavaMaven}}",
+        "{{buildJavaMaven}}",
+        "{{sonarCloudScan}}",
+        "{{registry}}",
+        "{{deploy}}",
+      ]
