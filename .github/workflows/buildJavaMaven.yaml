@@ -27,5 +27,5 @@ jobs:
       - name: Share Java Classes
         uses: actions/upload-artifact@v2
         with:
-          name: java-artifact
+          name: java-classes
           path: ./target/classes
