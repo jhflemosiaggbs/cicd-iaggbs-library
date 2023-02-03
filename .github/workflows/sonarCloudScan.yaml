@@ -31,6 +31,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-classes
+    
+      - name: List files
+        run: ls -la
       
       - name: sonarCloudScan
         uses: sonarsource/sonarcloud-github-action@master
