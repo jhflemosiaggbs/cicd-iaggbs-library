@@ -39,7 +39,7 @@ jobs:
         id: getArtifactId
         uses: jungwinter/split@v2
         with:
-          msg: $GITHUB_ACTION_REPOSITORY
+          msg: '$GITHUB_ACTION_REPOSITORY'
           separator: '/'
 
       - name: Get version
