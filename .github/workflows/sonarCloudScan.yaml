@@ -48,7 +48,7 @@ jobs:
             -Dsonar.projectKey=interlinehub_${{ inputs.artifactId }}
             -Dsonar.projectVersion=${{ inputs.version }}
             -Dsonar.coverage.jacoco.xmlReportPaths=jacoco.xml
-            -Dsonar.java.binaries=classes
+            -Dsonar.java.binaries=../classes
             -Dsonar.coverage.exclusions=test/**
 
       #- name: sonarCloudQualityGate
