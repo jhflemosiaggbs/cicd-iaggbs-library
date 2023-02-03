@@ -37,7 +37,7 @@ jobs:
       - name: Read constants yaml file
         id: constants
         run: |
-          yq .constants constants.yaml
+          yq .constants.job_name constants.yaml
 
       - name: Get artifactId
         id: getArtifactId
