@@ -54,10 +54,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       
       - name: Print constant
-        env:
-          constant: ${{ steps.constants.outputs }}
         run: |
-          echo $constant
+          echo "$GITHUB_CONTEXT"
       
     outputs:
       constants : ${{ steps.constants.outputs.constants }}
