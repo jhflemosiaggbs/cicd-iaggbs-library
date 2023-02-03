@@ -37,7 +37,7 @@ jobs:
       - name: Read constants yaml file
         id: constants
         run: |
-          export CONSTANTS=$( yq .constants constants.yaml -q -DforceStdout )
+          export CONSTANTS=$( yq .constants constants.yaml )
           echo "constants=$CONSTANTS" >> $GITHUB_OUTPUT
 
       - name: Get artifactId
@@ -56,7 +56,7 @@ jobs:
         env:
           constant: ${{ steps.constants.outputs }}
         run: |
-          echo "Hello: " ${constant.job_name.deploy}
+          echo ${{ constant.job_name.deploy }}
       
     outputs:
       constants : ${{ steps.constants.outputs.data }}
