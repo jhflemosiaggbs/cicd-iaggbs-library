@@ -29,7 +29,7 @@ jobs:
           distribution: 'temurin'
       
       - name: List files
-        run: cd ${{GITHUB_WORKSPACE}} && ls -la
+        run: cd $GITHUB_WORKFLOW_REF && ls -la
 
       - name: Read constants yaml
         id: constants
