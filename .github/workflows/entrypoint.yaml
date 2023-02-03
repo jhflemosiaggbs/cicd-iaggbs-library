@@ -4,15 +4,18 @@ name: entrypoint
 on:
   workflow_call:
     outputs:
+      constants:
+        description: "Constants to use in CICD pipeline"
+        value: ${{ jobs.entryPoint.outputs.constants }}
       artifactId:
-        description: "The first output string"
+        description: "ArtifactID from descriptor"
         value: ${{ jobs.entryPoint.outputs.artifactId }}
       version:
-        description: "The second output string"
+        description: "Version from descriptor"
         value: ${{ jobs.entryPoint.outputs.version }}
       branchName:
-        description: "The second output string"
-        value: ${{ jobs.entryPoint.outputs.branchName }}
+        description: "BranchName from GITHUB"
+        value: ${{ vars.GITHUB_REF_TYPE }}
 
 jobs:
   entryPoint:
@@ -25,23 +28,32 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
 
-      - name: Get branch name
-        id: branchName
-        uses: tj-actions/branch-names@v6
+      - name: Read constants yaml
+        id: constants
+        uses: jbutcher5/read-yaml@main
+        with:
+          file: '../constants.yaml'
+          key-path: '["constants"]'
 
       - name: Get artifactId
+        id: getArtifactId
         run: |
           export ARTIFACTID=$( mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout )
           echo "artifactId=$ARTIFACTID" >> $GITHUB_OUTPUT
-        id: getArtifactId
 
       - name: Get version
+        id: getVersion
         run: |
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get version
         id: getVersion
+        run: |
+          echo ${{ inputs.env }}
       
     outputs:
+      constants : ${{ steps.constants.outputs.data }}
       artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
-      version: ${{ steps.getVersion.outputs.version }}
+      version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ steps.branchName.outputs.current_branch }}
