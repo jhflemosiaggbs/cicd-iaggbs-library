@@ -57,7 +57,7 @@ jobs:
         env:
           constant: ${{ steps.constants.outputs.data }}
         run: |
-          echo ${constant.job_name.deploy}
+          echo "${constant.job_name.deploy}"
       
     outputs:
       constants : ${{ steps.constants.outputs.data }}
