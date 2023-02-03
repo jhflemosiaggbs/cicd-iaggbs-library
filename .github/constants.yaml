@@ -1,11 +1,11 @@
 constants:
   job_name:
-    build_java_maven: buildJavaMaven
-    test_java_maven : testJavaMaven
-    sonar_cloud_scan: sonar_cloud_scan
-    registry        : registry
-    deploy          : deploy
+    buildJavaMaven: buildJavaMaven
+    testJavaMaven: testJavaMaven
+    sonarCloudScan: sonarCloudScan
+    registry: registry
+    deploy: deploy
 
 
   job_definition:
-    stages_java: ["{{test_java_maven}}", "{{build_java_maven}}", "{{sonar_cloud_scan}}", "{{registry}}", "{{deploy}}"]
+    stages_java: ["{{testJavaMaven}}", "{{buildJavaMaven}}", "{{sonarCloudScan}}", "{{registry}}", "{{deploy}}"]
