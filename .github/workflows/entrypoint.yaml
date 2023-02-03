@@ -15,7 +15,7 @@ on:
         value: ${{ jobs.entryPoint.outputs.version }}
       branchName:
         description: "BranchName from GITHUB"
-        value: ${{ vars.GITHUB_REF_TYPE }}
+        value: ${{ vars.GITHUB_REF_NAME }}
 
 jobs:
   entryPoint:
@@ -29,10 +29,7 @@ jobs:
           distribution: 'temurin'
       
       - name: List files
-        run: ls -la
-
-      - name: List files
-        run: echo ${{env}}
+        run: cd ${{GITHUB_WORKSPACE}} && ls -la
 
       - name: Read constants yaml
         id: constants
