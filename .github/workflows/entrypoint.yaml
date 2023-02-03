@@ -55,7 +55,7 @@ jobs:
       
       - name: Print constant
         env:
-          constant: ${{ steps.constants.outputs.constants }}
+          constant: ${{ steps.constants.outputs.constant }}
         run: |
           echo $constant
       
