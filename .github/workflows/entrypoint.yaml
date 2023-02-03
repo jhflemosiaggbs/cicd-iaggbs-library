@@ -16,6 +16,13 @@ on:
       branchName:
         description: "BranchName from GITHUB"
         value: ${{ vars.GITHUB_REF_NAME }}
+    inputs:
+      recipe:
+        required: true
+        type: string
+      deploy:
+        required: true
+        type: string
 
 jobs:
   entryPoint:
@@ -28,24 +35,12 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
 
-      - name: Get constant yaml file
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -H "Authorization: token ${GITHUB_TOKEN}" https://raw.githubusercontent.com/jhflemosiaggbs/cicd-iaggbs/develop/.github/constants.yaml | yq . >> constants.yaml
-
-      - name: Read constants yaml file
-        id: constants
-        uses: CumulusDS/get-yaml-paths-action@v1.0.1
-        with:
-          file: constants.yaml
-          constant: constant
-
       - name: Get artifactId
         id: getArtifactId
-        run: |
-          export ARTIFACTID=$( mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout )
-          echo "artifactId=$ARTIFACTID" >> $GITHUB_OUTPUT
+        uses: jungwinter/split@v2
+        with:
+          msg: $GITHUB_REPOSITORY
+          separator: '/'
 
       - name: Get version
         id: getVersion
@@ -53,12 +48,7 @@ jobs:
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
       
-      - name: Print constant
-        run: |
-          echo $GITHUB
-      
     outputs:
-      constants : ${{ steps.constants.outputs.constants }}
-      artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
+      artifactId: ${{ steps.getArtifactId.outputs._1 }}
       version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ steps.branchName.outputs.current_branch }}
