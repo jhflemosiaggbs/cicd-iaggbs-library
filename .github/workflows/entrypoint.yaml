@@ -46,11 +46,6 @@ jobs:
         run: |
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Get version
-        id: getVersion
-        run: |
-          echo ${{ inputs.env }}
       
     outputs:
       constants : ${{ steps.constants.outputs.data }}
