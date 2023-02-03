@@ -59,7 +59,7 @@ jobs:
           echo yq .constant.job_name.deploy $constant
       
     outputs:
-      constants : ${{ steps.constants.outputs.data }}
+      constants : ${{ steps.constants.outputs.constants }}
       artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
       version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ steps.branchName.outputs.current_branch }}
