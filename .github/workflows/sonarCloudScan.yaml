@@ -27,6 +27,11 @@ jobs:
         with:
           name: jacoco-file
       
+      - name: Download Java classes
+        uses: actions/download-artifact@v3
+        with:
+          name: java-classes
+      
       - name: sonarCloudScan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -39,7 +44,7 @@ jobs:
             -Dsonar.projectKey=interlinehub_${{ inputs.artifactId }}
             -Dsonar.projectVersion=${{ inputs.version }}
             -Dsonar.coverage.jacoco.xmlReportPaths=jacoco.xml
-            -Dsonar.java.binaries=../target/classes
+            -Dsonar.java.binaries=./classes
             -Dsonar.coverage.exclusions=test/**
 
       #- name: sonarCloudQualityGate

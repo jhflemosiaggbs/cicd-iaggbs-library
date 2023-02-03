@@ -17,3 +17,15 @@ jobs:
       
       - name: mvnPackage
         run: mvn package -DskipTests
+      
+      - name: Share JAR artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-artifact
+          path: ./target/interlinehub-demo-java.jar
+      
+      - name: Share Java Classes
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-artifact
+          path: ./target/classes
