@@ -24,12 +24,14 @@ jobs:
         with:
           java-version: '18'
           distribution: 'temurin'
-          
-      - name: mvnTest
-        run: mvn verify test
       
       - name: mvnPackage
         run: mvn package -DskipTests
+
+      - name: Download Jacoco report
+        uses: actions/download-artifact@v3
+        with:
+          name: jacoco-report
       
       - name: sonarCloudScan
         uses: sonarsource/sonarcloud-github-action@master
@@ -42,6 +44,6 @@ jobs:
             -Dsonar.organization=interlinehub
             -Dsonar.projectKey=interlinehub_${{ inputs.artifactId }}
             -Dsonar.projectVersion=${{ inputs.version }}
-            -Dsonar.coverage.jacoco.xmlReportPaths=../target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=jacoco.xml
             -Dsonar.java.binaries=../target/classes
             -Dsonar.coverage.exclusions=test/**

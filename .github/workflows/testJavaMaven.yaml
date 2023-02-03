@@ -1,0 +1,25 @@
+
+name: testJavaMaven
+
+on:
+  workflow_call:
+
+jobs:
+  testJavaMaven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK 18
+        uses: actions/setup-java@v3
+        with:
+          java-version: '18'
+          distribution: 'temurin'
+          
+      - name: Maven Test
+        run: mvn verify test
+      
+      - name: Share test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-file
+          path: ./target/site/jacoco/jacoco.xml
