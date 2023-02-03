@@ -39,7 +39,7 @@ jobs:
         uses: CumulusDS/get-yaml-paths-action@v1.0.1
         with:
           file: constants.yaml
-          constant: constant
+          constant: .constant
 
       - name: Get artifactId
         id: getArtifactId
