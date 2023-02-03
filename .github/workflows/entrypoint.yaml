@@ -55,9 +55,9 @@ jobs:
       
       - name: Print constant
         env:
-          constant: ${{ steps.constants.outputs }}
+          constant: ${{ steps.constants.outputs.constants }}
         run: |
-          echo yq .constant.job_name.deploy $constant
+          echo $constant
       
     outputs:
       constants : ${{ steps.constants.outputs.constants }}
