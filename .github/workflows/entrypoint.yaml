@@ -31,6 +31,9 @@ jobs:
       - name: List files
         run: ls -la
 
+      - name: List files
+        run: echo ${{env}}
+
       - name: Read constants yaml
         id: constants
         uses: jbutcher5/read-yaml@main
