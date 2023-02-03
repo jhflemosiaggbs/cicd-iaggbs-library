@@ -37,7 +37,8 @@ jobs:
       - name: Read constants yaml file
         id: constants
         run: |
-          yq .constants constants.yaml
+          export CONSTANTS=$( yq .constants constants.yaml )
+          echo "constants=$CONSTANTS" >> $GITHUB_OUTPUT
 
       - name: Get artifactId
         id: getArtifactId
