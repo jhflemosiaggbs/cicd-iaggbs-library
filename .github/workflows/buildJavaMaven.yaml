@@ -3,16 +3,6 @@ name: buildJavaMaven
 
 on:
   workflow_call:
-    inputs:
-      artifactId:
-        required: true
-        type: string
-      version:
-        required: true
-        type: string
-      branchName:
-        required: true
-        type: string
 
 jobs:
   buildJavaMaven:
@@ -27,23 +17,3 @@ jobs:
       
       - name: mvnPackage
         run: mvn package -DskipTests
-
-      - name: Download Jacoco report
-        uses: actions/download-artifact@v3
-        with:
-          name: jacoco-file
-      
-      - name: sonarCloudScan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: src/
-          args: >
-            -Dsonar.organization=interlinehub
-            -Dsonar.projectKey=interlinehub_${{ inputs.artifactId }}
-            -Dsonar.projectVersion=${{ inputs.version }}
-            -Dsonar.coverage.jacoco.xmlReportPaths=jacoco.xml
-            -Dsonar.java.binaries=../target/classes
-            -Dsonar.coverage.exclusions=test/**
