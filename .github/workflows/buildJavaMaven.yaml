@@ -3,6 +3,16 @@ name: buildJavaMaven
 
 on:
   workflow_call:
+    inputs:
+      artifactId:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      branchName:
+        required: true
+        type: string
 
 jobs:
   buildJavaMaven:
@@ -25,13 +35,13 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: src/
           args: >
             -Dsonar.organization=interlinehub
-            -Dsonar.projectKey=interlinehub_${{ github.event.artifactId }}
-            -Dsonar.projectVersion=${{ github.event.version }}
+            -Dsonar.projectKey=interlinehub_${{ input.artifactId }}
+            -Dsonar.projectVersion=${{ input.version }}
             -Dsonar.coverage.jacoco.xmlReportPaths=../target/site/jacoco/jacoco.xml
             -Dsonar.java.binaries=../target/classes
             -Dsonar.coverage.exclusions=test/**
