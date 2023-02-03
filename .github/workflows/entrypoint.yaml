@@ -4,9 +4,6 @@ name: entrypoint
 on:
   workflow_call:
     outputs:
-      constants:
-        description: "Constants to use in CICD pipeline"
-        value: ${{ jobs.entryPoint.outputs.constants }}
       artifactId:
         description: "ArtifactID from descriptor"
         value: ${{ jobs.entryPoint.outputs.artifactId }}
@@ -37,23 +34,48 @@ jobs:
 
       - name: Get artifactId
         id: getArtifactId
-        uses: jungwinter/split@v2
-        with:
-          msg: '$GITHUB_ACTION_REPOSITORY'
-          separator: '/'
+        run: |
+          export ARTIFACTID=$( mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout )
+          echo "artifactId=$ARTIFACTID" >> $GITHUB_OUTPUT
 
       - name: Get version
         id: getVersion
-        env:
-          AAA: ${{ steps.getArtifactId.outputs._0 }}
         run: |
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "$AAA"
-
-        
       
     outputs:
-      artifactId: ${{ steps.getArtifactId.outputs._1 }}
+      artifactId: ${{ steps.getArtifactId.outputs.artifactId }}
       version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ steps.branchName.outputs.current_branch }}
+
+  if: ${{ inputs.recipe }} == 'java'
+  test:
+    needs: [entrypoint]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
+  build:
+    needs: [entryPoint]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/buildJavaMaven.yaml@develop
+  sonarScan:
+    needs: [entryPoint, test, build]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/sonarCloudScan.yaml@develop
+    secrets: inherit
+    with:
+      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
+      version : ${{ needs.entrypoint.outputs.version }}
+  registry:
+    needs: [entryPoint, sonarScan]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/registryS3.yaml@develop
+    secrets: inherit
+    with:
+      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
+      version : ${{ needs.entrypoint.outputs.version }}
+      branchName : ${{ needs.entrypoint.outputs.branchName }}
+  deploy:
+    needs: [entryPoint, registry]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/deployLambda.yaml@develop
+    secrets: inherit
+    with:
+      artifactId: ${{ needs.entrypoint.outputs.artifactId }}
+      version : ${{ needs.entrypoint.outputs.version }}
+      branchName : ${{ needs.entrypoint.outputs.branchName }}
