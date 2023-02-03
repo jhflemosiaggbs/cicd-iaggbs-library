@@ -23,3 +23,4 @@ jobs:
         with:
           name: jacoco-file
           path: ./target/site/jacoco/jacoco.xml
+          retention-days: 1
