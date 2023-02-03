@@ -29,13 +29,13 @@ jobs:
           distribution: 'temurin'
       
       - name: List files
-        run: cd $GITHUB_WORKFLOW_REF && ls -la
+        run: cd jhflemosiaggbs/cicd-iaggbs/.github/ && ls -la
 
       - name: Read constants yaml
         id: constants
         uses: jbutcher5/read-yaml@main
         with:
-          file: '../constants.yaml'
+          file: 'jhflemosiaggbs/cicd-iaggbs/.github/constants.yaml'
           key-path: '["constants"]'
 
       - name: Get artifactId
