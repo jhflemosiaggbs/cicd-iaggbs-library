@@ -1,0 +1,29 @@
+
+name: deployLambda
+
+on:
+  workflow_call:
+    inputs:
+      artifactId:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      branchName:
+        required: true
+        type: string
+
+jobs:
+  deployLambda:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to AWS Lambda
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: 'eu-west-2'
+        function_name: AIGCIH_UpdateFunctionProcess_Development
+        s3_bucket: 'lmb-iagcih-dev-euwe2-updateFunctionProcess-01'
+        s3_key: 'artifacts/${{ inputs.branchName }}/${{ inputs.version }}/${{ inputs.artifactId }}.jar'
