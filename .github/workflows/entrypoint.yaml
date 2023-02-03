@@ -55,7 +55,7 @@ jobs:
       
       - name: Print constant
         run: |
-          echo "$GITHUB_CONTEXT"
+          echo "$GITHUB"
       
     outputs:
       constants : ${{ steps.constants.outputs.constants }}
