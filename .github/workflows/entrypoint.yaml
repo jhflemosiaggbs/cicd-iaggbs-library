@@ -32,14 +32,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -H "Authorization: token ${GITHUB_TOKEN}" https://raw.githubusercontent.com/jhflemosiaggbs/cicd-iaggbs/develop/.github/constants.yaml >> constants.yaml
+          curl -H "Authorization: token ${GITHUB_TOKEN}" https://raw.githubusercontent.com/jhflemosiaggbs/cicd-iaggbs/develop/.github/constants.yaml | yq . >> constants.yaml
 
       - name: Read constants yaml file
         id: constants
-        uses: jbutcher5/read-yaml@main
-        with:
-          file: 'constants.yaml'
-          key-path: '["constants"]'
+        run: |
+          yq .constants constants.yaml
 
       - name: Get artifactId
         id: getArtifactId
@@ -55,7 +53,7 @@ jobs:
       
       - name: Print constant
         env:
-          constant: ${{ steps.constants.outputs.data }}
+          constant: ${{ steps.constants.outputs }}
         run: |
           echo "Hello: " ${constant.job_name.deploy}
       
