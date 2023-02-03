@@ -45,7 +45,7 @@ jobs:
       - name: Get version
         id: getVersion
         env:
-          AAA: ${{ steps.getArtifactId.outputs._1 }}
+          AAA: ${{ steps.getArtifactId.outputs._0 }}
         run: |
           export VERSION=$( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
           echo "version=$VERSION" >> $GITHUB_OUTPUT
