@@ -3,17 +3,6 @@ name: testJavaMaven
 
 on:
   workflow_call:
-    inputs:
-      recipe:
-        required: true
-        type: string
-      provider:
-        required: true
-        type: string
-      branchName:
-        required: false
-        type: string
-        default: ${{ github.ref_name }}
 
 jobs:
   testJavaMaven:
