@@ -41,6 +41,10 @@ jobs:
     if: ${{ inputs.recipe == 'node' }}
     needs: [entrypoint]
     uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
+
+    if: ${{ inputs.recipe == 'node' }}
+    needs: [entrypoint]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testNodeNpm.yaml@develop
   
   build:
     if: ${{ inputs.recipe == 'node' }}
