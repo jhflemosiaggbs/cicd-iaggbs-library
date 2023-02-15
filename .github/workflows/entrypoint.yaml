@@ -13,8 +13,8 @@ on:
 
 jobs:
   entryPoint:
-    runs-on: ubuntu-latest
     if: ${{ inputs.recipe == 'java' }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Setup JDK 18
@@ -37,8 +37,8 @@ jobs:
       version   : ${{ steps.getVersion.outputs.version }}
       branchName: ${{ github.ref_name }}
   
-  if: ${{ inputs.recipe == 'java' }}
   test:
+    if: ${{ inputs.recipe == 'java' }}
     needs: [entrypoint]
     uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
   
