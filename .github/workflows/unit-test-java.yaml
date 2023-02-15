@@ -1,5 +1,5 @@
 
-name: testJavaMaven
+name: unitTestJavaMaven
 
 on:
   workflow_call:
