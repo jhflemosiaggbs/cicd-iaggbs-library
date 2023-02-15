@@ -38,7 +38,7 @@ jobs:
       branchName: ${{ github.ref_name }}
   
   test:
-    #if: ${{ inputs.recipe }}
+    if: ${{ inputs.recipe == 'node' }}
     needs: [entrypoint]
     uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
   
