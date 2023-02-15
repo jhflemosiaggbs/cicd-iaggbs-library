@@ -42,10 +42,10 @@ jobs:
     needs: [entrypoint]
     uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/testJavaMaven.yaml@develop
   
-  #build:
-  #  if: ${{ inputs.recipe == 'java' }}
-  #  needs: [entryPoint]
-  #  uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/buildJavaMaven.yaml@develop
+  build:
+    if: ${{ inputs.recipe == 'node' }}
+    needs: [entryPoint]
+    uses: jhflemosiaggbs/cicd-iaggbs/.github/workflows/buildJavaMaven.yaml@develop
   #
   #sonarScan:
   #  needs: [entryPoint, test, build]
