@@ -3,6 +3,13 @@ name: unitTestJavaMaven
 
 on:
   workflow_call:
+    inputs:
+      artifactId:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
 
 jobs:
   unitTestJavaMaven:
